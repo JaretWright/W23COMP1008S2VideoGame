@@ -54,9 +54,9 @@ public int getPosY() {
 public void setPosY(int posY) {
         int furthestDown = GameConfig.getGame_height()-imageHeight;
         if (posY>=0 && posY <= furthestDown)
-        this.posY = posY;
+            this.posY = posY;
         else
-        throw new IllegalArgumentException(String.format("posY must be in the range of 0-%d",furthestDown));
+            throw new IllegalArgumentException(String.format("posY must be in the range of 0-%d",furthestDown));
         }
 
 public int getImageWidth() {
