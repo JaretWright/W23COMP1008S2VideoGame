@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 public class Sprite {
 
     private Image image;
-    private int posX, posY, imageWidth, imageHeight, speed;
+    protected int posX, posY, imageWidth, imageHeight, speed;
     private boolean alive;
 
     /**

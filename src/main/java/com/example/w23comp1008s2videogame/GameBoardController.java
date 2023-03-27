@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
+import java.security.Key;
 import java.util.HashSet;
 
 public class GameBoardController {
@@ -45,16 +46,17 @@ public class GameBoardController {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //get an Image object
-        Image shipImage = new Image(getClass().getResourceAsStream("images/ship.png"));
+//        Image shipImage = new Image(getClass().getResourceAsStream("images/ship.png"));
         Image background = new Image(getClass().getResourceAsStream("images/space.png"));
 
-        Sprite ship = new Sprite(shipImage,100, 100,100,70,1);
+//        Sprite ship = new Sprite(shipImage,100, 100,100,70,1);
+        Ship ship = new Ship(100,100,4);
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 gc.drawImage(background,0,0,GameConfig.getGame_width(),GameConfig.getGame_height());
-//                updateShip(ship);
+                updateShip(ship);
                 ship.draw(gc);
 
             }
@@ -62,6 +64,22 @@ public class GameBoardController {
         timer.start();
 
         anchorPane.getChildren().add(canvas);
+    }
+
+    /**
+     * This method will read from the activeKeys set to determine which methods from the Ship
+     * class should be called
+     */
+    private void updateShip(Ship ship)
+    {
+        if (activeKeys.contains(KeyCode.LEFT))
+            ship.moveLeft();
+        if (activeKeys.contains(KeyCode.RIGHT))
+            ship.moveRight();
+        if (activeKeys.contains(KeyCode.UP))
+            ship.moveUp();
+        if (activeKeys.contains(KeyCode.DOWN))
+            ship.moveDown();
     }
 
 }

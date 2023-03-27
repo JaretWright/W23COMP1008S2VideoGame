@@ -15,4 +15,18 @@ public class Ship extends Sprite {
         super(new Image(Main.class.getResourceAsStream("images/ship.png")), posX, posY,
                 100, 70, speed);
     }
+
+    public void moveRight()
+    {
+        posX = posX + speed;
+        if (posX > GameConfig.getGame_width()-imageWidth)
+            posX = GameConfig.getGame_width()-imageWidth;
+    }
+
+    public void moveLeft()
+    {
+        posX = posX - speed;
+        if (posX<0)
+            posX=0;
+    }
 }
