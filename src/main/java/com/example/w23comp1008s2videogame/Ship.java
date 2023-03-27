@@ -7,7 +7,10 @@ import java.util.ArrayList;
 
 public class Ship extends Sprite {
 
+    private final int REFRESH_RATE = 5;
+    private int currentMissilePause;
     private ArrayList<Missile> activeMissiles;
+
     /**
      * The ship image will always be the same ship, so we do not need to pass that in as a parameter
      * The size of the ship will be 100x70, so no need to pass those arguments in anymore
@@ -19,6 +22,7 @@ public class Ship extends Sprite {
         super(new Image(Main.class.getResourceAsStream("images/ship.png")), posX, posY,
                 100, 70, speed);
         activeMissiles = new ArrayList<>();
+        currentMissilePause = REFRESH_RATE;
     }
 
     public void moveRight()
@@ -61,12 +65,18 @@ public class Ship extends Sprite {
 
     public void shootMissile()
     {
-        Missile newMissile = new Missile(posX+imageWidth,posY+imageHeight/2);
-        activeMissiles.add(newMissile);
+        if (currentMissilePause<0)
+        {
+            Missile newMissile = new Missile(posX+imageWidth,posY+imageHeight/2);
+            activeMissiles.add(newMissile);
+            currentMissilePause = REFRESH_RATE;
+        }
     }
 
     public void draw(GraphicsContext gc)
     {
+        currentMissilePause--;
+
         super.draw(gc);
 
         activeMissiles.removeIf(missile -> !missile.isAlive());
