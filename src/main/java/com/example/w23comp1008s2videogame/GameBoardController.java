@@ -20,7 +20,6 @@ public class GameBoardController {
     @FXML
     void startGame(ActionEvent event) {
         startButton.setVisible(false);
-
         //a canvas can be used to "draw" on.  The GraphicsContext is a tool used for
         //the drawing
         Canvas canvas = new Canvas(GameConfig.getGame_width(),GameConfig.getGame_height());
