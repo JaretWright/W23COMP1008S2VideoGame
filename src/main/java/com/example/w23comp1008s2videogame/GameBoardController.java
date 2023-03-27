@@ -76,7 +76,7 @@ public class GameBoardController {
             ship.moveLeft();
         if (activeKeys.contains(KeyCode.RIGHT))
             ship.moveRight();
-        if (activeKeys.contains(KeyCode.UP))
+        if (activeKeys.contains(KeyCode.UP))  //student goal - update the Ship class to handle up and down
             ship.moveUp();
         if (activeKeys.contains(KeyCode.DOWN))
             ship.moveDown();

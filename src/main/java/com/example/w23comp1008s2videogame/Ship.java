@@ -29,4 +29,28 @@ public class Ship extends Sprite {
         if (posX<0)
             posX=0;
     }
+
+    /**
+     * The highest the ship can be drawn is row 0.
+     */
+    public void moveUp()
+    {
+         posY -= speed;
+
+         if (posY<0)
+             posY=0;
+    }
+
+    /**
+     * based on a 1000x800 game, the furthest down would be 800 minus the height of the ship image (70)
+     * 800-70 = 730
+     */
+    public void moveDown()
+    {
+        int furthestDown = GameConfig.getGame_height()-imageHeight;
+        posY += speed;
+
+        if (posY > furthestDown)
+            posY = furthestDown;
+    }
 }
