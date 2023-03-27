@@ -54,8 +54,9 @@ public class GameBoardController {
             @Override
             public void handle(long now) {
                 gc.drawImage(background,0,0,GameConfig.getGame_width(),GameConfig.getGame_height());
+//                updateShip(ship);
                 ship.draw(gc);
-                ship.moveRight();
+
             }
         };
         timer.start();
