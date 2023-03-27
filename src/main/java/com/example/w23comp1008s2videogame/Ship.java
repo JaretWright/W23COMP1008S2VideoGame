@@ -1,9 +1,13 @@
 package com.example.w23comp1008s2videogame;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 
 public class Ship extends Sprite {
 
+    private ArrayList<Missile> activeMissiles;
     /**
      * The ship image will always be the same ship, so we do not need to pass that in as a parameter
      * The size of the ship will be 100x70, so no need to pass those arguments in anymore
@@ -14,6 +18,7 @@ public class Ship extends Sprite {
     public Ship(int posX, int posY, int speed) {
         super(new Image(Main.class.getResourceAsStream("images/ship.png")), posX, posY,
                 100, 70, speed);
+        activeMissiles = new ArrayList<>();
     }
 
     public void moveRight()
@@ -52,5 +57,21 @@ public class Ship extends Sprite {
 
         if (posY > furthestDown)
             posY = furthestDown;
+    }
+
+    public void shootMissile()
+    {
+        Missile newMissile = new Missile(posX+imageWidth,posY+imageHeight/2);
+        activeMissiles.add(newMissile);
+    }
+
+    public void draw(GraphicsContext gc)
+    {
+        super.draw(gc);
+
+        activeMissiles.removeIf(missile -> !missile.isAlive());
+
+        for (Missile missile : activeMissiles)
+            missile.draw(gc);
     }
 }

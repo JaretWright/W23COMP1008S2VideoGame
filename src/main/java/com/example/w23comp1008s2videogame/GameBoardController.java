@@ -58,7 +58,6 @@ public class GameBoardController {
                 gc.drawImage(background,0,0,GameConfig.getGame_width(),GameConfig.getGame_height());
                 updateShip(ship);
                 ship.draw(gc);
-
             }
         };
         timer.start();
@@ -80,6 +79,8 @@ public class GameBoardController {
             ship.moveUp();
         if (activeKeys.contains(KeyCode.DOWN))
             ship.moveDown();
+        if (activeKeys.contains(KeyCode.SPACE))
+            ship.shootMissile();
     }
 
 }
