@@ -97,7 +97,8 @@ public class Sprite {
     }
 
     public void draw(GraphicsContext gc) {
-        gc.drawImage(image, posX, posY, imageWidth, imageHeight);
+        if (isAlive())
+            gc.drawImage(image, posX, posY, imageWidth, imageHeight);
     }
 
 

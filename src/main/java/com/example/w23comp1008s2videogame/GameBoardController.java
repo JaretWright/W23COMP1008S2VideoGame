@@ -62,7 +62,7 @@ public class GameBoardController {
             //this gives a randon number between 500-1000 for the X
             //                                   0-800 for the Y
             aliens.add(new Alien(rng.nextInt(500,GameConfig.getGame_width()),
-                                        rng.nextInt(GameConfig.getGame_height())));
+                                        rng.nextInt(GameConfig.getGame_height()-60)));
         }
 
         AnimationTimer timer = new AnimationTimer() {
@@ -72,8 +72,31 @@ public class GameBoardController {
                 updateShip(ship);
                 ship.draw(gc);
 
+                aliens.removeIf(alien -> !alien.isAlive());
+
                 for (Alien alien : aliens)
+                {
                     alien.draw(gc);
+
+                    //check if the missile hits an Alien
+                    for (Missile missle : ship.getActiveMissiles())
+                    {
+                        if (missle.collidesWith(alien))
+                        {
+                            alien.setAlive(false);
+                            missle.setAlive(false);
+                        }
+                    }
+
+                    //check if the Alien hits the ship
+                    if (alien.collidesWith(ship))
+                    {
+                        ship.setAlive(false);
+                        alien.setAlive(false);
+                        stop();
+                    }
+                }
+
             }
         };
         timer.start();
