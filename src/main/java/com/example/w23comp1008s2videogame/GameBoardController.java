@@ -65,6 +65,9 @@ public class GameBoardController {
                                         rng.nextInt(GameConfig.getGame_height()-60)));
         }
 
+        //Create a collection to hold all of the explosion objects
+        ArrayList<Explosion> explosions = new ArrayList<>();
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -83,6 +86,7 @@ public class GameBoardController {
                     {
                         if (missle.collidesWith(alien))
                         {
+                            explosions.add(new Explosion(alien.getPosX(),alien.getPosY()));
                             alien.setAlive(false);
                             missle.setAlive(false);
                         }
@@ -96,6 +100,9 @@ public class GameBoardController {
                         stop();
                     }
                 }
+
+                for (Explosion explosion : explosions)
+                    explosion.draw(gc);
 
             }
         };
