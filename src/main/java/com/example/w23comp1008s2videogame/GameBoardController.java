@@ -76,6 +76,7 @@ public class GameBoardController {
                 ship.draw(gc);
 
                 aliens.removeIf(alien -> !alien.isAlive());
+                explosions.removeIf(explosion -> !explosion.isAlive());
 
                 for (Alien alien : aliens)
                 {
@@ -95,14 +96,23 @@ public class GameBoardController {
                     //check if the Alien hits the ship
                     if (alien.collidesWith(ship))
                     {
+                        explosions.add(new Explosion(ship.posX, ship.posY));
                         ship.setAlive(false);
                         alien.setAlive(false);
-                        stop();
                     }
                 }
 
+                if (!ship.isAlive() && explosions.size()==0)
+                {
+                    stop();
+                }
+
                 for (Explosion explosion : explosions)
+                {
                     explosion.draw(gc);
+                }
+
+                //write 1 line of code to remove explosions that are not alive
 
             }
         };
