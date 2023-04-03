@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.security.Key;
 import java.security.SecureRandom;
@@ -62,7 +65,7 @@ public class GameBoardController {
             //this gives a randon number between 500-1000 for the X
             //                                   0-800 for the Y
             aliens.add(new Alien(rng.nextInt(500,GameConfig.getGame_width()),
-                                        rng.nextInt(GameConfig.getGame_height()-60)));
+                                        rng.nextInt(GameConfig.getGame_height()-60-80)));
         }
 
         //Create a collection to hold all of the explosion objects
@@ -77,6 +80,15 @@ public class GameBoardController {
 
                 aliens.removeIf(alien -> !alien.isAlive());
                 explosions.removeIf(explosion -> !explosion.isAlive());
+
+                //if all the aliens are destroyed, the game is over
+                if (aliens.size()==0)
+                {
+                    gc.drawImage(background,0,0,GameConfig.getGame_width(),GameConfig.getGame_height());
+                    finalMessage(gc,"You saved the universe",Color.WHITE);
+                    if (explosions.size()==0)
+                        stop();
+                }
 
                 for (Alien alien : aliens)
                 {
@@ -102,8 +114,12 @@ public class GameBoardController {
                     }
                 }
 
+                //The ship has hit an alien & the explosions are done.  Display message and stop animation
+                //timer
                 if (!ship.isAlive() && explosions.size()==0)
                 {
+                    gc.drawImage(background,0,0,GameConfig.getGame_width(),GameConfig.getGame_height());
+                    finalMessage(gc,"The Aliens got you!!", Color.WHITE);
                     stop();
                 }
 
@@ -112,8 +128,7 @@ public class GameBoardController {
                     explosion.draw(gc);
                 }
 
-                //write 1 line of code to remove explosions that are not alive
-
+                updateStats(gc, aliens);
             }
         };
         timer.start();
@@ -139,18 +154,32 @@ public class GameBoardController {
             ship.shootMissile();
     }
 
+    /**
+     * This method show how many aliens are remaining
+     * The GraphicContext is what we write / draw on the canvas with.  Think of it as a paint brush
+     */
+    private void updateStats(GraphicsContext gc, ArrayList<Alien> aliens)
+    {
+        //draw a black recantagle at the bottom of the canvas
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0,720, 1000,80);
+
+        //write how many aliens are left
+        Font font = Font.font("Arial", FontWeight.NORMAL, 32);
+        gc.setFont(font);
+        gc.setFill(Color.WHITE);
+        gc.fillText("Aliens remaining: "+aliens.size(), 600, 770);
+    }
+
+    /**
+     * This will be the final message displayed on the game board at the end of the game
+     *
+     */
+    private void finalMessage(GraphicsContext gc, String message, Color color)
+    {
+        Font font = Font.font("Arial",FontWeight.NORMAL, 40);
+        gc.setFont(font);
+        gc.setFill(color);
+        gc.fillText(message, 250,350);
+    }
 }
-
-
-/**
- *
- * ArrayList -> [A,A,A,A,A,A,A,A]
- * Stack -> push items onto the stack and pop them off.
- * Set -> Sets are much like list - they are a collection, however, they automatically prevent
- *              duplicates
- * [A]
- *
- *
- *
- *
- */
